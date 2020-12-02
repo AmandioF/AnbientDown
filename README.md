@@ -18,7 +18,7 @@ Install dependencies automatically with pip:
 
 # Usage
     $ python3 AnbientDown.py -h
-    Usage: zipPy.py [options] [url1] [url2] ...
+    Usage: AnbientDown.py [options] [url1] [url2] ...
     
     Options:
         --version             show program's version number and exit
