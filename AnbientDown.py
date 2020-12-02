@@ -57,9 +57,12 @@ soup = BeautifulSoup(html, 'html5lib')
 block = soup.find('div', class_ = 'servidor zippyshare active')
 
 if block is None: 
-    print("Entrie pai")
     block = soup.find('div', class_ = 'servidor zippyshare')
 
+    if block is None:
+        print("Anime dont have support to zippyshare")
+        exit(0)
+        
 block_li = block.find_all('li')
 
 links = []
