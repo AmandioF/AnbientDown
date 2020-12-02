@@ -4,6 +4,8 @@ Anbient download script, written in Python.
 
 Downloads Episodes using the link of anime on anbient. You can provide the URLs on the command line.
 
+> Only using **Zippyshare** option
+
 # Requirements
 * Python 3.6 (or above)
   * bs4
