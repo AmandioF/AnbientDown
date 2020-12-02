@@ -3,3 +3,5 @@ selenium
 webdriver_manager
 optparse
 requests
+progressbar
+numpy

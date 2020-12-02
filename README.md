@@ -34,5 +34,7 @@ Install dependencies automatically with pip:
 
 # Changelog
 
+## v0.1.1
+* Add Progress bar
 ## v0.1
 * Initial release

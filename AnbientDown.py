@@ -1,4 +1,4 @@
-VERSION="0.1"
+VERSION="0.1.1"
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -8,7 +8,9 @@ from optparse import OptionParser
 import os
 import errno
 import requests as req 
-
+import progressbar
+import numpy as np
+import time
 
 option_parser = OptionParser(usage="Usage: %prog [options] [url1] [url2] ...", version=f"%%prog v{VERSION}")
 option_parser.add_option('-l', '--link', action='store', dest='url_list_file',
@@ -42,6 +44,8 @@ if not os.path.exists(os.path.dirname(output_dir)):
 ### get links on anbient
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
+options.add_argument('log-level=3') # Remove this to show INFO:CONSOLE
+
 driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
 if anime_link is None or anime_link == "":
@@ -62,7 +66,7 @@ if block is None:
     if block is None:
         print("Anime dont have support to zippyshare")
         exit(0)
-        
+
 block_li = block.find_all('li')
 
 links = []
@@ -96,10 +100,17 @@ for i in range(begin_ep-1, end_ep):
     # create response object  
     r = req.get(dl_url, stream = True)  
         
-    # download started  
+    # download started 
+    block_size = 1024
+    file_size = int(r.headers.get('Content-Length', None))
+    num_bars = np.ceil(file_size / (block_size * block_size))
+    bar =  progressbar.ProgressBar(maxval=num_bars).start()
     with open(output_dir + file_name, 'wb') as f:  
-        for chunk in r.iter_content(chunk_size = 1024*1024):  
+        for i, chunk in enumerate(r.iter_content(chunk_size = (block_size * block_size))):  
             if chunk:  
                 f.write(chunk)  
-        
+                bar.update(i+1)
+                # Add a little sleep so you can see the bar progress
+                time.sleep(0.05)
+
     print( "%s downloaded!\n"%file_name ) 
